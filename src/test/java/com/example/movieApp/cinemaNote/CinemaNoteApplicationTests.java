@@ -1,0 +1,13 @@
+package com.example.movieApp.cinemaNote;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+class CinemaNoteApplicationTests {
+
+	@Test
+	void contextLoads() {
+	}
+
+}
