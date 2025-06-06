@@ -1,8 +1,7 @@
 server:
   port: 8080
 
-tmdb:
-  api-key: d1fb72b17c2d0b9c33bded6239232410
+
 
 spring:
   datasource:
@@ -29,5 +28,3 @@ logging:
   level:
     org.hibernate.SQL: debug
 
-jwt:
-  secret: iugILs1RnXBzm7UcPeMFzhwFuEoIHAn/yEheLYVl3PA=
