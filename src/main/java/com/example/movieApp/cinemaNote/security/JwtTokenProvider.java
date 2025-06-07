@@ -23,6 +23,7 @@ public class JwtTokenProvider {
 
     private Key key;
     private final long tokenValidTime = 1000L * 60 * 60; // 1시간
+    private final long refreshTokenValidTime = 1000L * 60 * 60 * 24 * 14; // 2주
 
     private final CustomUserDetailsService userDetailsService;
 
@@ -30,6 +31,21 @@ public class JwtTokenProvider {
     protected void init() {
         byte[] keyBytes = Base64.getEncoder().encode(secretKey.getBytes());
         key = Keys.hmacShaKeyFor(keyBytes);
+    }
+
+    public String createRefreshToken(String email, String role) {
+        Claims claims = Jwts.claims().setSubject(email);
+        claims.put("role", role);
+
+        Date now = new Date();
+        Date validity = new Date(now.getTime() + refreshTokenValidTime);
+
+        return Jwts.builder()
+                .setClaims(claims)
+                .setIssuedAt(now)
+                .setExpiration(validity)
+                .signWith(key, SignatureAlgorithm.HS256)
+                .compact();
     }
 
     // 토큰 생성

@@ -15,8 +15,19 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/login")
-    public ResponseEntity<JwtToken> login(@RequestBody LoginRequest request) {
-        String token = authService.login(request);
-        return ResponseEntity.ok(new JwtToken("Bearer", token));
+    public ResponseEntity<java.util.Map<String, Object>> login(@RequestBody LoginRequest request) {
+        JwtToken token = authService.login(request);
+
+        java.util.Map<String, Object> response = new java.util.HashMap<>();
+        response.put("success", true);
+        response.put("message", "로그인 성공");
+
+        java.util.Map<String, String> data = new java.util.HashMap<>();
+        data.put("accessToken", token.getAccessToken());
+        data.put("refreshToken", token.getRefreshToken());
+
+        response.put("data", data);
+
+        return ResponseEntity.ok(response);
     }
 }

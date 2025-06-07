@@ -10,4 +10,5 @@ import lombok.NoArgsConstructor;
 public class JwtToken {
     private String grantType; // 예: "Bearer"
     private String accessToken;
+    private String refreshToken; // 추가됨
 }
