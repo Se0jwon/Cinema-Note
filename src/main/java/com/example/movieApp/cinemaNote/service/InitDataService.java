@@ -4,6 +4,7 @@ import com.example.movieApp.cinemaNote.domain.Gender;
 import com.example.movieApp.cinemaNote.dto.SignupRequest;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -11,13 +12,14 @@ import org.springframework.stereotype.Component;
 public class InitDataService {
 
     private final MemberService memberService;
+    private final PasswordEncoder passwordEncoder;
 
     @PostConstruct
     public void init() {
         if (!memberService.existsByEmail("1234@example.com")) {
             memberService.signup(SignupRequest.builder()
                     .email("1234@example.com")
-                    .password("1234")
+                    .password(passwordEncoder.encode("1234"))
                     .username("대건우")
                     .gender(Gender.MALE)
                     .phone("01073382156")
@@ -28,7 +30,7 @@ public class InitDataService {
         if (!memberService.existsByEmail("5678@example.com")) {
             memberService.signup(SignupRequest.builder()
                     .email("5678@example.com")
-                    .password("1234")
+                    .password(passwordEncoder.encode("1234"))
                     .username("소건우")
                     .gender(Gender.MALE)
                     .phone("01073382156")
@@ -39,7 +41,7 @@ public class InitDataService {
         if (!memberService.existsByEmail("9012@example.com")) {
             memberService.signup(SignupRequest.builder()
                     .email("9012@example.com")
-                    .password("1234")
+                    .password(passwordEncoder.encode("1234"))
                     .username("ㄱㄱㅇ")
                     .gender(Gender.MALE)
                     .phone("01073382156")

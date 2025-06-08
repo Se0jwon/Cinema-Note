@@ -1,6 +1,7 @@
 package com.example.movieApp.cinemaNote.api;
 
 import com.example.movieApp.cinemaNote.dto.auth.LoginRequest;
+import com.example.movieApp.cinemaNote.dto.auth.LoginResponseDto;
 import com.example.movieApp.cinemaNote.security.JwtToken;
 import com.example.movieApp.cinemaNote.service.AuthService;
 import lombok.RequiredArgsConstructor;
@@ -15,18 +16,14 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/login")
-    public ResponseEntity<java.util.Map<String, Object>> login(@RequestBody LoginRequest request) {
+    public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequest request) {
         JwtToken token = authService.login(request);
 
-        java.util.Map<String, Object> response = new java.util.HashMap<>();
-        response.put("success", true);
-        response.put("message", "로그인 성공");
+        LoginResponseDto.DataField data = new LoginResponseDto.DataField();
+        data.setAccessToken(token.getAccessToken());
+        data.setRefreshToken(token.getRefreshToken());
 
-        java.util.Map<String, String> data = new java.util.HashMap<>();
-        data.put("accessToken", token.getAccessToken());
-        data.put("refreshToken", token.getRefreshToken());
-
-        response.put("data", data);
+        LoginResponseDto response = new LoginResponseDto(true, "로그인 성공", data);
 
         return ResponseEntity.ok(response);
     }

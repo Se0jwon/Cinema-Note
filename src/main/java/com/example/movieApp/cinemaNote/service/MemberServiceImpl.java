@@ -1,8 +1,8 @@
 package com.example.movieApp.cinemaNote.service;
 
-
-
+import com.example.movieApp.cinemaNote.domain.Gender;
 import com.example.movieApp.cinemaNote.dto.ProfileRequest;
+import com.example.movieApp.cinemaNote.dto.auth.LoginRequest;
 import com.example.movieApp.cinemaNote.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional(readOnly = true)
-@Slf4j
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
 
@@ -30,25 +29,23 @@ public class MemberServiceImpl implements MemberService {
         }
 
         Member member = Member.builder()
-                .email(request.getEmail())
-                .username(request.getUsername())     // 닉네임용
+                .email(request.getEmail()) // ✅ 꼭 들어가야 함
                 .password(passwordEncoder.encode(request.getPassword()))
+                .username(request.getUsername())
                 .phone(request.getPhone())
                 .profileImg(request.getProfileImg())
+                .role(request.getRole())
                 .gender(request.getGender())
-                .role(Role.USER)
                 .build();
 
         memberRepository.save(member);
     }
 
     @Override
-    public void updateProfile(Member member, ProfileRequest request) {
-        member.setUsername(request.getUsername());
-        member.setProfileImg(request.getImageUrl());
-        if (request.getPassword() != null && !request.getPassword().isBlank()) {
-            member.setPassword(passwordEncoder.encode(request.getPassword()));
-        }
+    public boolean login(LoginRequest request) {
+        return memberRepository.findByEmail(request.getEmail())
+                .filter(member -> passwordEncoder.matches(request.getPassword(), member.getPassword()))
+                .isPresent();
     }
 
     @Override
@@ -60,5 +57,14 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public boolean existsByEmail(String email) {
         return memberRepository.existsByEmail(email);
+    }
+
+    @Override
+    public void updateProfile(Member member, ProfileRequest request) {
+        member.setUsername(request.getUsername());
+        member.setProfileImg(request.getImageUrl());
+        if (request.getPassword() != null && !request.getPassword().isBlank()) {
+            member.setPassword(passwordEncoder.encode(request.getPassword()));
+        }
     }
 }
