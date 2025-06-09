@@ -45,4 +45,12 @@ public class AuthServiceImpl implements AuthService {
 
         return new JwtToken("Bearer", accessToken, refreshToken);
     }
+
+    // AuthServiceImpl.java
+    @Override
+    public String findUserName(String email) {
+        Member member = memberRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("회원을 찾을 수 없습니다."));
+        return member.getUsername(); // ✅ Member 엔티티에서 getUsername() 메서드 필요
+    }
 }

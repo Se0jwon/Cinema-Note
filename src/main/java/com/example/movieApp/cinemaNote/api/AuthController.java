@@ -18,12 +18,13 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequest request) {
         JwtToken token = authService.login(request);
+        String username = authService.findUserName(request.getEmail());
 
-        LoginResponseDto.DataField data = new LoginResponseDto.DataField();
-        data.setAccessToken(token.getAccessToken());
-        data.setRefreshToken(token.getRefreshToken());
-
-        LoginResponseDto response = new LoginResponseDto(true, "로그인 성공", data);
+        LoginResponseDto response = new LoginResponseDto(
+                token.getAccessToken(),
+                token.getRefreshToken(),
+                username
+        );
 
         return ResponseEntity.ok(response);
     }

@@ -23,6 +23,7 @@ public class Member {
 
     private String password;
 
+    @Column(name = "username")
     private String username;
 
     private String phone;
@@ -34,5 +35,17 @@ public class Member {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @Builder
+    public Member(String email, String password, String username, String phone,
+                  String profileImg, Gender gender, Role role) {
+        this.email = email;
+        this.password = password;
+        this.username = username;
+        this.phone = phone;
+        this.profileImg = profileImg;
+        this.gender = gender;
+        this.role = role;
+    }
 
 }

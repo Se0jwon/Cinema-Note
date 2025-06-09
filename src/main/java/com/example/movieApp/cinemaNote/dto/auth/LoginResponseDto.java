@@ -1,22 +1,29 @@
 package com.example.movieApp.cinemaNote.dto.auth;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class LoginResponseDto {
-    private boolean success;
-    private String message;
-    private DataField data;
+    private String accessToken;
+    private String refreshToken;
+    private String username;
 
-    @Data
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public static class DataField {
-        private String accessToken;
-        private String refreshToken;
+    public String getAccessToken() {
+        return accessToken;
+    }
+
+    public String getRefreshToken() {
+        return refreshToken;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+    public LoginResponseDto(String accessToken, String refreshToken, String username) {
+        this.accessToken = accessToken;
+        this.refreshToken = refreshToken;
+        this.username = username;
     }
 }

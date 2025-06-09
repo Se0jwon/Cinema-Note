@@ -29,7 +29,7 @@ public class MemberServiceImpl implements MemberService {
         }
 
         Member member = Member.builder()
-                .email(request.getEmail()) // ✅ 꼭 들어가야 함
+                .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .username(request.getUsername())
                 .phone(request.getPhone())
