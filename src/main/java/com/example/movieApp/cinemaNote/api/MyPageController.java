@@ -43,7 +43,11 @@ public class MyPageController {
         member.setUsername(dto.getUsername());
         member.setPassword(passwordEncoder.encode(dto.getPassword()));
         member.setPhone(dto.getPhone()); // ✅ 전화번호 업데이트
-        member.setProfileImg(dto.getImageUrl());
+        String imageUrl = dto.getImageUrl();
+        if (imageUrl == null || imageUrl.isEmpty()) {
+            imageUrl = "https://your-default-image-url.com/default.png"; // replace with actual default URL
+        }
+        member.setProfileImg(imageUrl);
 
         memberRepository.save(member);
         return ResponseEntity.ok().build();
