@@ -13,6 +13,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.example.movieApp.cinemaNote.repository.PostRepository; // import도 함께
 
+import org.springframework.web.multipart.MultipartFile;
+import java.io.File;
+import java.io.IOException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -83,6 +86,24 @@ public class MyPageServiceImpl implements MyPageService {
             memberRepository.save(member);
         } else {
             throw new RuntimeException("현재 비밀번호가 일치하지 않습니다.");
+        }
+    }
+
+    @Override
+    public String uploadProfileImage(MultipartFile file, Member member) {
+        try {
+            String uploadDir = "src/main/resources/static/uploads/";
+            String filename = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+            File dest = new File(uploadDir + filename);
+            file.transferTo(dest);
+
+            String imageUrl = "/uploads/" + filename;
+            member.setProfileImg(imageUrl);
+            memberRepository.save(member);
+
+            return imageUrl;
+        } catch (IOException e) {
+            throw new RuntimeException("이미지 업로드 실패: " + e.getMessage());
         }
     }
 }

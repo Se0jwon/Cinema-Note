@@ -22,4 +22,6 @@ public interface MyPageService {
     List<PostResponseDto> getMyPosts(Member member);
 
     void evaluateBadges(Member member);
+
+    String uploadProfileImage(org.springframework.web.multipart.MultipartFile file, Member member);
 }

@@ -12,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.util.List;
 
 @RestController
@@ -22,6 +24,15 @@ public class MyPageController {
     private final MyPageService myPageService;
     private final PasswordEncoder passwordEncoder;
     private final MemberRepository memberRepository;
+
+    @PostMapping("/upload/profile-image")
+    public ResponseEntity<String> uploadProfileImage(
+            @RequestPart MultipartFile file,
+            @AuthenticationPrincipal CustomUserDetails userDetails) {
+
+        String imageUrl = myPageService.uploadProfileImage(file, userDetails.getMember());
+        return ResponseEntity.ok(imageUrl);
+    }
 
     @GetMapping("/posts")
     public ResponseEntity<List<PostResponseDto>> myPosts(@AuthenticationPrincipal CustomUserDetails userDetails) {
