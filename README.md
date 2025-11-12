@@ -45,10 +45,10 @@
 
 ```yaml
 tmdb:
-  api-key: d1fb72b17c2d0b9c33bded6239232410 # 여기에 TMDB API Key를 입력하세요
+  api-key: d1fb72b17c2d0b9c33bded6239232410 
 
 jwt:
-  secret: iugILs1RnXBzm7UcPeMFzhwFuEoIHAn/yEheLYVl3PA= # 여기에 JWT Secret Key를 입력하세요
+  secret: iugILs1RnXBzm7UcPeMFzhwFuEoIHAn/yEheLYVl3PA= 
 ```
 
 ### 5.3. 애플리케이션 실행
